@@ -13,11 +13,16 @@ public class Katamari : MonoBehaviour
     // Add a member variable to represent a LIST of all of the Collectable 
     //      objects we've collected named _katamariCollection.
     // Then, uncomment the code in SetSpherePosition().
+    public List<Collectable> _katamariCollection;
 
     // ------------------------------------------------------------------------
     // There's probably a member variable you need to declare in a built-in
     //      Unity method that runs once, before Update starts...
-    
+    private void Start()
+    {
+        _katamariCollection = new List<Collectable>();
+    }
+
 
     // ------------------------------------------------------------------------
     private void OnTriggerEnter(Collider otherCollider)
@@ -72,7 +77,7 @@ public class Katamari : MonoBehaviour
     // This method sets up the sphere to be in the corret position in front
     //      of the player, and ensures all of the objects inside the katamari
     //      remain in its center.
-    /*
+    
     private void SetSpherePosition ()
     {
         // place the sphere in front of the player
@@ -93,5 +98,5 @@ public class Katamari : MonoBehaviour
             }
         }
     }
-    */
+    
 }
