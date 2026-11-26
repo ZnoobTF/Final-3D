@@ -10,6 +10,11 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject _gameOverUI;
 
     // Add member variables to store references to all of the UI text.
+    [SerializeField] private TMP_Text _timerText;
+    [SerializeField] private TMP_Text _commonPointsText;
+    [SerializeField] private TMP_Text _uncommonPointsText;
+    [SerializeField] private TMP_Text _rarePointsText;
+    [SerializeField] private TMP_Text _finalScoreText;
 
     private int _commonPoints;
     private int _uncommonPoints;
@@ -32,9 +37,9 @@ public class GameController : MonoBehaviour
         if (_runGame)
         {
             _timeRemaining -= Time.deltaTime;
-            
-            // Update the game timer text.
 
+            // Update the game timer text.
+            _timerText.text = _timeRemaining.ToString();
             if (_timeRemaining <= 0)
             {
                 EndGame();
@@ -51,8 +56,9 @@ public class GameController : MonoBehaviour
         SetGameEnabled(true);
 
         _timeRemaining = _maxTimeSeconds;
-        
+
         // Update the game timer text.
+        _timerText.text = _timeRemaining.ToString();
     }
 
     // ------------------------------------------------------------------------
@@ -69,6 +75,11 @@ public class GameController : MonoBehaviour
         _gameOverUI.SetActive(true);
 
         // Update the final score text in the game over UI.
+        SetGameEnabled(false);
+        _gameOverUI.SetActive(true);
+
+        int finalScore = _commonPoints + _uncommonPoints * 2 + _rarePoints * 3;
+        _finalScoreText.text = finalScore.ToString();
     }
 
     // ------------------------------------------------------------------------
@@ -82,21 +93,50 @@ public class GameController : MonoBehaviour
 
     // ------------------------------------------------------------------------
     // Add a paramter to this method to represent the item's rarity.
-    public void CollectItem ()
+    public void CollectItem (Rarity rarity)
     {
         // Using a SWITCH STATEMENT,
         // based on the item's rarity, update the appropriate points variable.
-        
+        switch (rarity)
+        {
+            case Rarity.Common:
+                _commonPoints++;
+                break;
+
+            case Rarity.Uncommon:
+                _uncommonPoints++;
+                break;
+
+            case Rarity.Rare:
+                _rarePoints++;
+                break;
+        }
+
+
 
         UpdatePointsText();
     }
 
     // ------------------------------------------------------------------------
-    public void RemoveItem ()
+    public void RemoveItem (Rarity rarity)
     {
         // Using a SWITCH STATEMENT,
         // based on the item's rarity, update the appropriate points variable.
-        
+        switch (rarity)
+        {   
+            case Rarity.Common:
+                _commonPoints--;
+                break;
+
+            case Rarity.Uncommon:
+                _uncommonPoints--;
+                break;
+
+            case Rarity.Rare:
+                _rarePoints--;
+                break;
+        }
+
         UpdatePointsText();
     }
 
@@ -104,5 +144,8 @@ public class GameController : MonoBehaviour
     private void UpdatePointsText()
     {
         // Update your points text.
+        _commonPointsText.text = _commonPoints.ToString();
+        _uncommonPointsText.text = _uncommonPoints.ToString();
+        _rarePointsText.text = _rarePoints.ToString();
     }
 }

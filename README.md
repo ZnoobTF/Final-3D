@@ -1,7 +1,10 @@
 # GDIM 31 Final: 3D
 ## Devlogs
 ### Milestone 1
-TODO.
+I think the biggest problem for me was figuring out what the flow of the code was (as in what to code first, what I need to do, so basically planning). When I was coding for the Katamari and the Collectables, I was very confused on 
+implementing the Collect method, as it was connected to the OnTriggerEnter method. I think the biggest issue I had was to figure out what I needed to call, how to do the trigger, and then debugging them. I didn't realize that I needed to actually assign the variables _rigidBody and _colliders first in the Start() method for the Collectables class, which I found out because of an error in the console. 
+When I saw that it was a _colliders was an array, everything clicked for me. See, at the start, for my collectables I was using the ones in the models folder (no relevant components), not the prefabs folder (which mostly have 2 colliders in them). When I then used the correct ones, I noticed that they had two colliders, one of which had isTrigger enabled. 
+This helped me realized that "Oh, I needed to use these all along, so my Katamari class's trigger actually work (instead of having one collider on the objects that would just make them fall into the ground if isTrigger was true), and then since there are multiple colliders, I need to foreach to disable all the ones in the array". 
 
 ### Milestone 2
 TODO.

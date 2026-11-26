@@ -46,13 +46,24 @@ public class Player : MonoBehaviour
         transform.Translate(
            ((vertical * Vector3.forward) + (horizontal * Vector3.right))
            * _moveSpeed * Time.deltaTime
+           
        );
+
+        if (vertical > 0 || horizontal > 0 || mouseX > 0 || mouseY > 0)
+        {
+            _animator.SetBool("walking", true);
+        }
+        else
+        {
+            _animator.SetBool("walking", false);
+        }
 
         if (Input.GetKeyDown(KeyCode.Space)&&_isGrounded)
         {
             _playerRigidbody.AddForce(Vector3.up * _jump, ForceMode.Impulse);
             _isGrounded = false;    
             Debug.Log("False");
+            _animator.SetTrigger("jump");
         }
 
 
@@ -71,7 +82,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("enter");
+        //Debug.Log("enter");
         if (collision.gameObject.CompareTag("Ground"))
         {
             _isGrounded = true;

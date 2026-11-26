@@ -30,17 +30,20 @@ public class Katamari : MonoBehaviour
         // Find the Collectable Component on the object we collided with.
         // Modify this if statement to ALSO check and make sure the Collectable
         //      actually exists, since we might collide with other kinds of objects too.
-
-        if(otherCollider.bounds.extents.magnitude <= _katamariCollider.bounds.extents.magnitude) {
+        Collectable collectable = otherCollider.GetComponent<Collectable>();
+        Debug.Log("wassup1");
+        if (otherCollider.bounds.extents.magnitude <= _katamariCollider.bounds.extents.magnitude&&collectable!=null) {
+            Debug.Log("wassup");
             // Grow the SPHERE OBJECT, which should be a CHILD of the Katamari object,
             //      by _radiusGrowAmount.
             // AFTER growing the sphere, call SetSpherePosition() to update the sphere's position.
-
+            _sphereTransform.localScale += Vector3.one*_radiusGrowAmount;
+            SetSpherePosition();
             // Add the new Collectable to our list of hit objects.
-            
+            _katamariCollection.Add(collectable);
 
             // Tell the Collectable that we want to collect it.
-
+            collectable.Collect(transform);
             // If the object has an NPC Component, let it know about being collected
             //      by calling PickUp on the NPC.
             
@@ -54,18 +57,23 @@ public class Katamari : MonoBehaviour
     {
         // Modify this if statement to ALSO check if we have any entries in our
         //  katamari collection.
-        if(collision.gameObject.tag.Equals("Obstacle"))
+        if(collision.gameObject.tag.Equals("Obstacle")&&_katamariCollection.Count>0)
         {
-            // SHRINK the katamari SPHERE by _radiusGrowAmount.
+            // SHRINK the katamari SPHERE by _radiusGrowAmount
             // AFTER changing its size, call SetSpherePosition() to fix its position.
-            
+            _sphereTransform.localScale -= Vector3.one * _radiusGrowAmount;
+            SetSpherePosition();
+
 
             // Grab a RANDOM member of our katamari collection.
+            int i = Random.Range(0, _katamariCollection.Count);
+            Collectable a = _katamariCollection[i];
             // Generate a position to drop it at- preferably by launching it far above the katamari sphere.
+            Vector3 droppos = _sphereTransform.position + Vector3.up * 15;
             // Then, DROP that Collectable.
-
+            a.Drop(droppos);
             // Finally, remove the entry from the _katamariCollection.
-
+            _katamariCollection.RemoveAt(i);
             _unequipAudioSource.Play();
         }
     }
