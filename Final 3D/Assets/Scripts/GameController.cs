@@ -144,8 +144,10 @@ public class GameController : MonoBehaviour
     private void UpdatePointsText()
     {
         // Update your points text.
+        /*
         _commonPointsText.text = _commonPoints.ToString();
         _uncommonPointsText.text = _uncommonPoints.ToString();
         _rarePointsText.text = _rarePoints.ToString();
+        */
     }
 }
